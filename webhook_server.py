@@ -63,7 +63,8 @@ def webhook():
         # unwrap() verifies the X-Webhook-Signature header and rejects stale or
         # forged payloads. Reads ANTHROPIC_WEBHOOK_SIGNING_KEY from env.
         event = _client.beta.webhooks.unwrap(raw, headers=dict(request.headers))
-    except Exception:  # noqa: BLE001
+    except Exception as exc:  # noqa: BLE001
+        print(f"[webhook] signature verification failed: {exc!r}", file=sys.stderr)
         return "invalid signature", 400
 
     data = to_dict(getattr(event, "data", event))
