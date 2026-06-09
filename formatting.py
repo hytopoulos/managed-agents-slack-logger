@@ -129,18 +129,7 @@ def format_event(event: Any) -> str | None:
 
 
 def parent_text(session: Any) -> str:
-    """Header message for the thread root, summarizing the session."""
+    """Header message for the thread root."""
     s = to_dict(session)
     sid = s.get("id", "unknown")
-    title = s.get("title") or "(untitled session)"
-    agent = s.get("agent_id") or s.get("agent") or "?"
-    model = s.get("model") or ""
-    status = s.get("status", "")
-    lines = [
-        f"🟣 *Managed Agent session* `{sid}`",
-        f"*Title:* {title}",
-        f"*Agent:* `{agent}`" + (f"   *Model:* `{model}`" if model else ""),
-    ]
-    if status:
-        lines.append(f"*Status:* {status}")
-    return "\n".join(lines)
+    return f":large_purple_circle: Managed Agent session {sid}"
