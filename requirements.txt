@@ -1,4 +1,4 @@
-anthropic>=0.40
+anthropic[webhooks]>=0.40
 requests>=2.31
 flask>=3.0
 python-dotenv>=1.0
