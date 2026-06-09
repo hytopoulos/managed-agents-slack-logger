@@ -106,6 +106,17 @@ def format_event(event: Any) -> str | None:
         prefix = "🔴 error" if is_err else "result"
         return f"{head} ({prefix})\n{_code(body) if body else '_empty_'}"
 
+    if etype == "user.custom_tool_result":
+        content = e.get("content")
+        is_err = e.get("is_error")
+        body = _text_blocks(content) if isinstance(content, list) else str(content or "")
+        try:
+            body = json.dumps(json.loads(body), indent=2, ensure_ascii=False)
+        except Exception:  # noqa: BLE001
+            pass
+        suffix = " 🔴 error" if is_err else ""
+        return f"{head}{suffix}\n{_code(body) if body else '_empty_'}"
+
     if etype == "session.error":
         err = e.get("error") or e.get("message") or e
         return f"{head}\n{_code(err)}"
